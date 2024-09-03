@@ -43,7 +43,7 @@ public class AlbumController {
     }
 
     @GetMapping("/getAllAlbums")
-    public List<Album> getAllAlbums() {
-        return albumService.getAllAlbums();
+    public ResponseEntity<List<Album>> getAllAlbums() {
+        return ResponseEntity.ok(albumService.getAllAlbums());
     }
 }
