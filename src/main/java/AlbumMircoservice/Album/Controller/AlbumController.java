@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/albums")
+@RequestMapping("/album")
 public class AlbumController {
 
     @Autowired
@@ -40,5 +40,10 @@ public class AlbumController {
     public ResponseEntity<Void> deleteAlbum(@PathVariable Long albumId) {
         albumService.deleteAlbum(albumId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/getAllAlbums")
+    public List<Album> getAllAlbums() {
+        return albumService.getAllAlbums();
     }
 }

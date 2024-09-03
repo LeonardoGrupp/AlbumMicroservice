@@ -12,5 +12,6 @@ public interface AlbumServiceInterface {
         Album createAlbum(Album album);
         Album updateAlbum(Long albumId, Album album);
         void deleteAlbum(Long albumId);
+        List<Album> getAllAlbums();
 
 }

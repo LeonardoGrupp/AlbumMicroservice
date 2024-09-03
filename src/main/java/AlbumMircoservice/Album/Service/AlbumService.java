@@ -13,11 +13,6 @@ public class AlbumService implements AlbumServiceInterface {
     @Autowired
     private AlbumRepository albumRepository;
 
-    /*@Override
-    public List<Album> getAlbumsByArtist(Long artistId) {
-        return albumRepository.findByArtistsId(artistId);
-    }*/
-
     @Override
     public Album getAlbumById(Long albumId) {
         return albumRepository.findById(albumId).orElseThrow(() -> new RuntimeException("Album not found"));
@@ -33,12 +28,16 @@ public class AlbumService implements AlbumServiceInterface {
         Album existingAlbum = getAlbumById(albumId);
         existingAlbum.setName(album.getName());
         existingAlbum.setReleaseDate(album.getReleaseDate());
-        //existingAlbum.setArtists(album.getArtists());
         return albumRepository.save(existingAlbum);
     }
 
     @Override
     public void deleteAlbum(Long albumId) {
         albumRepository.deleteById(albumId);
+    }
+
+    @Override
+    public List<Album> getAllAlbums() {
+        return albumRepository.findAll();
     }
 }
