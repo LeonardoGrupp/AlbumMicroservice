@@ -7,7 +7,6 @@ import java.util.List;
 
 @Service
 public interface AlbumServiceInterface {
-        //List<Album> getAlbumsByArtist(Long artistId);
         Album getAlbumById(Long albumId);
         Album createAlbum(Album album);
         Album updateAlbum(Long albumId, Album album);
