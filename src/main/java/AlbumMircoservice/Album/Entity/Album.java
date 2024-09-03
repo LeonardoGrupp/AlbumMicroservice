@@ -2,11 +2,11 @@ package AlbumMircoservice.Album.Entity;
 
 import jakarta.persistence.*;
 
-import javax.print.attribute.standard.Media;
+import java.time.LocalDate;
 import java.util.Date;
-import java.util.List;
 
 @Entity
+@Table(name = "album")
 public class Album {
 
     @Id
@@ -17,30 +17,7 @@ public class Album {
     private String name;
 
     @Column(name = "release_date")
-    private Date releaseDate;
-
-    // ARTIST RELATERADE GREJER
-    // VET EJ OM DETTA FUNKAR
-
-    /*@ManyToMany
-    @JoinTable(
-            name = "album_artist",
-            joinColumns = @JoinColumn(name = "album_id"),
-            inverseJoinColumns = @JoinColumn(name = "artist_id")
-    )
-    private List<Artist> artists;
-
-    @OneToMany(mappedBy = "album", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Media> mediaList;
-
-    // Constructors, getters and setters
-    public Album() {}
-
-    public Album(String name, Date releaseDate, List<Artist> artists) {
-        this.name = name;
-        this.releaseDate = releaseDate;
-        this.artists = artists;
-    }*/
+    private String releaseDate;
 
     public Long getId() {
         return id;
@@ -58,11 +35,11 @@ public class Album {
         this.name = name;
     }
 
-    public Date getReleaseDate() {
+    public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(Date releaseDate) {
+    public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
 
