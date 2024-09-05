@@ -18,9 +18,6 @@ public class AlbumController {
     @Autowired
     private AlbumService albumService;
 
-    @Autowired
-    private AlbumRepository albumRepository;
-
     @GetMapping("/GetAlbum/{albumId}")
     public ResponseEntity<Album> getAlbumById(@PathVariable Long albumId) {
         return new ResponseEntity<>(albumService.getAlbumById(albumId), HttpStatus.OK);
