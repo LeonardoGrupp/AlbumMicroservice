@@ -22,7 +22,7 @@ public class Album {
     public Album() {
     }
 
-    public Album(String name, Date releaseDate) {
+    public Album(String name, String releaseDate) {
         this.name = name;
         this.releaseDate = releaseDate;
     }

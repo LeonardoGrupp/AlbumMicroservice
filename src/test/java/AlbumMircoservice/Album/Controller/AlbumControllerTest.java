@@ -20,13 +20,11 @@ import static org.mockito.Mockito.*;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class AlbumControllerTest {
 
     @Autowired
