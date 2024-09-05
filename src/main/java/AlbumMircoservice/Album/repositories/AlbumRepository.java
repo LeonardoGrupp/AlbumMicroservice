@@ -1,6 +1,6 @@
-package AlbumMircoservice.Album.Repository;
+package AlbumMircoservice.Album.repositories;
 
-import AlbumMircoservice.Album.Entity.Album;
+import AlbumMircoservice.Album.entities.Album;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,7 @@
-package AlbumMircoservice.Album.Service;
+package AlbumMircoservice.Album.services;
 
-import AlbumMircoservice.Album.Entity.Album;
-import AlbumMircoservice.Album.Repository.AlbumRepository;
+import AlbumMircoservice.Album.entities.Album;
+import AlbumMircoservice.Album.repositories.AlbumRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

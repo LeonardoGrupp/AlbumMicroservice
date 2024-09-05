@@ -1,9 +1,6 @@
-package AlbumMircoservice.Album.Entity;
+package AlbumMircoservice.Album.entities;
 
 import jakarta.persistence.*;
-
-import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "album")

@@ -1,12 +1,10 @@
-package AlbumMircoservice.Album.Controller;
+package AlbumMircoservice.Album.controllers;
 
-import AlbumMircoservice.Album.Entity.Album;
-import AlbumMircoservice.Album.Repository.AlbumRepository;
-import AlbumMircoservice.Album.Service.AlbumService;
+import AlbumMircoservice.Album.entities.Album;
+import AlbumMircoservice.Album.services.AlbumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +21,7 @@ public class AlbumController {
         return new ResponseEntity<>(albumService.getAlbumById(albumId), HttpStatus.OK);
     }
 
-    @PostMapping("/CreateAlbum")
+    @PostMapping("/createAlbum")
     public ResponseEntity<Album> createAlbum(@RequestBody Album album) {
         return new ResponseEntity<>(albumService.createAlbum(album), HttpStatus.CREATED);
     }

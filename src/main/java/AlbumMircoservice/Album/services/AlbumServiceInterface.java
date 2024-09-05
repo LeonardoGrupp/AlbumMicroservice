@@ -1,6 +1,6 @@
-package AlbumMircoservice.Album.Service;
+package AlbumMircoservice.Album.services;
 
-import AlbumMircoservice.Album.Entity.Album;
+import AlbumMircoservice.Album.entities.Album;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +11,7 @@ public interface AlbumServiceInterface {
         Album createAlbum(Album album);
         Album updateAlbum(Long albumId, Album album);
         void deleteAlbum(Long albumId);
+        Boolean checkIfAlbumExistsByName(String name);
         List<Album> getAllAlbums();
 
 }
