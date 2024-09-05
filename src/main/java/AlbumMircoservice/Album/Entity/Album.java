@@ -19,6 +19,14 @@ public class Album {
     @Column(name = "release_date")
     private String releaseDate;
 
+    public Album() {
+    }
+
+    public Album(String name, Date releaseDate) {
+        this.name = name;
+        this.releaseDate = releaseDate;
+    }
+
     public Long getId() {
         return id;
     }

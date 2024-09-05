@@ -40,4 +40,10 @@ public class AlbumService implements AlbumServiceInterface {
     public List<Album> getAllAlbums() {
         return albumRepository.findAll();
     }
+
+    public Boolean checkIfAlbumExistsByName(String name) {
+        Album album = albumRepository.findAlbumByName(name);
+
+        return album != null;
+    }
 }

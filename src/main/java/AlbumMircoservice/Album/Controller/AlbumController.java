@@ -46,4 +46,9 @@ public class AlbumController {
     public ResponseEntity<List<Album>> getAllAlbums() {
         return ResponseEntity.ok(albumService.getAllAlbums());
     }
+
+    @GetMapping("/exists/{name}")
+    public ResponseEntity<Boolean> albumExist(@PathVariable("name") String name) {
+        return ResponseEntity.ok(albumService.checkIfAlbumExistsByName(name));
+    }
 }
