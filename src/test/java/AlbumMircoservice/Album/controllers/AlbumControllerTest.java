@@ -1,5 +1,6 @@
 package AlbumMircoservice.Album.controllers;
 
+import AlbumMircoservice.Album.entities.AlbumSongResponseDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import AlbumMircoservice.Album.entities.Album;
 import AlbumMircoservice.Album.services.AlbumService;
@@ -20,7 +21,9 @@ import static org.mockito.Mockito.*;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -69,7 +72,7 @@ class AlbumControllerTest {
     void testCreateAlbum_ReturnsCreatedStatus() throws Exception {
         given(albumService.createAlbum(any(Album.class))).willReturn(album);
 
-        mockMvc.perform(post("/album/CreateAlbum")
+        mockMvc.perform(post("/album/createAlbum")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(albumJson))
                 .andExpect(status().isCreated())
@@ -115,5 +118,46 @@ class AlbumControllerTest {
                 .andExpect(content().json(albumsJson));
     }
 
+    @Test
+    void testAlbumExist_ReturnsOkStatus() throws Exception {
+        String albumName = "Test Album";
+        given(albumService.checkIfAlbumExistsByName(albumName)).willReturn(true);
+
+        mockMvc.perform(get("/album/exists/{name}", albumName))
+                .andExpect(status().isOk())
+                .andExpect(content().string("true"));
+    }
+
+    @Test
+    void testAlbumDoesNotExist_ReturnsOkStatus() throws Exception {
+        String albumName = "Non-existent Album";
+        given(albumService.checkIfAlbumExistsByName(albumName)).willReturn(false);
+
+        mockMvc.perform(get("/album/exists/{name}", albumName))
+                .andExpect(status().isOk())
+                .andExpect(content().string("false"));
+    }
+
+    @Test
+    void testAddSongToAlbum_ReturnsOkStatus() throws Exception {
+        Long albumId = 1L;
+        String albumName = "Test Album";
+        Long songId = 100L;
+        String songTitle = "Test Song";
+        Integer position = 1;
+
+        Map<String, Integer> requestBody = new HashMap<>();
+        requestBody.put("position", position);
+        String requestJson = objectMapper.writeValueAsString(requestBody);
+
+        AlbumSongResponseDTO responseDTO = new AlbumSongResponseDTO(albumId, albumName, songId, songTitle, position);
+        given(albumService.addSongToAlbum(albumId, songId, position)).willReturn(responseDTO);
+
+        mockMvc.perform(post("/album/{albumId}/{songId}", albumId, songId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(responseDTO)));
+    }
 
 }

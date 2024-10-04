@@ -1,7 +1,12 @@
 package AlbumMircoservice.Album.services;
 
 import AlbumMircoservice.Album.entities.Album;
+import AlbumMircoservice.Album.entities.AlbumMusic;
+import AlbumMircoservice.Album.entities.AlbumSongResponseDTO;
+import AlbumMircoservice.Album.entities.Music;
+import AlbumMircoservice.Album.repositories.AlbumMusicRepository;
 import AlbumMircoservice.Album.repositories.AlbumRepository;
+import AlbumMircoservice.Album.repositories.MusicRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -20,6 +25,11 @@ class AlbumServiceTest {
     @Mock
     private AlbumRepository albumRepository;
 
+    @Mock
+    private MusicRepository musicRepository;
+
+    @Mock
+    private AlbumMusicRepository albumMusicRepository;
     @InjectMocks
     private AlbumService albumService;
 
@@ -226,8 +236,206 @@ class AlbumServiceTest {
         verify(albumRepository, times(1)).findAll();
     }
 
+    @Test
+    void testAddSongToAlbum_AlbumIsFound() {
+        Long albumId = 1L;
+        Long songId = 100L;
+        Integer position = 1;
+
+        Album mockAlbum = new Album();
+        mockAlbum.setId(albumId);
+        mockAlbum.setName("Test Album");
+
+        when(albumRepository.findById(albumId)).thenReturn(Optional.of(mockAlbum));
+
+        Music mockSong = new Music();
+        mockSong.setId(songId);
+        mockSong.setTitle("Test Song");
+
+        when(musicRepository.findById(songId)).thenReturn(Optional.of(mockSong));
+
+        AlbumSongResponseDTO result = albumService.addSongToAlbum(albumId, songId, position);
+
+        assertNotNull(result);
+    }
 
 
+    @Test
+    void testAddSongToAlbum_SongIsFound() {
+        Long albumId = 1L;
+        Long songId = 100L;
+        Integer position = 1;
+
+        Album mockAlbum = new Album();
+        mockAlbum.setId(albumId);
+        mockAlbum.setName("Test Album");
+
+        when(albumRepository.findById(albumId)).thenReturn(Optional.of(mockAlbum));
+
+        Music mockSong = new Music();
+        mockSong.setId(songId);
+        mockSong.setTitle("Test Song");
+
+        when(musicRepository.findById(songId)).thenReturn(Optional.of(mockSong));
+
+        AlbumSongResponseDTO result = albumService.addSongToAlbum(albumId, songId, position);
+
+        assertNotNull(result);
+    }
 
 
+    @Test
+    void testAddSongToAlbum_ThrowsExceptionIfAlbumNotFound() {
+        Long albumId = 1L;
+
+        when(albumRepository.findById(albumId)).thenReturn(Optional.empty());
+
+        assertThrows(RuntimeException.class, () -> {
+            albumService.addSongToAlbum(albumId, 100L, 1);
+        });
+    }
+
+    @Test
+    void testAddSongToAlbum_ThrowsExceptionIfSongNotFound() {
+        Long songId = 100L;
+
+        when(albumRepository.findById(1L)).thenReturn(Optional.of(new Album()));
+        when(musicRepository.findById(songId)).thenReturn(Optional.empty());
+
+        assertThrows(RuntimeException.class, () -> {
+            albumService.addSongToAlbum(1L, songId, 1);
+        });
+    }
+
+    @Test
+    void testAddSongToAlbum_SaveAlbumMusicCalled() {
+        Long albumId = 1L;
+        Long songId = 100L;
+        Integer position = 1;
+
+        Album mockAlbum = new Album();
+        mockAlbum.setId(albumId);
+        mockAlbum.setName("Test Album");
+
+        Music mockSong = new Music();
+        mockSong.setId(songId);
+        mockSong.setTitle("Test Song");
+
+        when(albumRepository.findById(albumId)).thenReturn(Optional.of(mockAlbum));
+        when(musicRepository.findById(songId)).thenReturn(Optional.of(mockSong));
+
+        albumService.addSongToAlbum(albumId, songId, position);
+
+        verify(albumMusicRepository, times(1)).save(any(AlbumMusic.class));
+    }
+
+    @Test
+    void testAddSongToAlbum_ReturnsAlbumId() {
+        Long albumId = 1L;
+        Long songId = 100L;
+        Integer position = 1;
+
+        Album mockAlbum = new Album();
+        mockAlbum.setId(albumId);
+        mockAlbum.setName("Test Album");
+
+        Music mockSong = new Music();
+        mockSong.setId(songId);
+        mockSong.setTitle("Test Song");
+
+        when(albumRepository.findById(albumId)).thenReturn(Optional.of(mockAlbum));
+        when(musicRepository.findById(songId)).thenReturn(Optional.of(mockSong));
+
+        AlbumSongResponseDTO result = albumService.addSongToAlbum(albumId, songId, position);
+
+        assertEquals(albumId, result.getAlbumId());
+    }
+
+    @Test
+    void testAddSongToAlbum_ReturnsAlbumName() {
+        Long albumId = 1L;
+        Long songId = 100L;
+        Integer position = 1;
+
+        Album mockAlbum = new Album();
+        mockAlbum.setId(albumId);
+        mockAlbum.setName("Test Album");
+
+        Music mockSong = new Music();
+        mockSong.setId(songId);
+        mockSong.setTitle("Test Song");
+
+        when(albumRepository.findById(albumId)).thenReturn(Optional.of(mockAlbum));
+        when(musicRepository.findById(songId)).thenReturn(Optional.of(mockSong));
+
+        AlbumSongResponseDTO result = albumService.addSongToAlbum(albumId, songId, position);
+
+        assertEquals("Test Album", result.getAlbumName());
+    }
+
+    @Test
+    void testAddSongToAlbum_ReturnsSongId() {
+        Long albumId = 1L;
+        Long songId = 100L;
+        Integer position = 1;
+
+        Album mockAlbum = new Album();
+        mockAlbum.setId(albumId);
+        mockAlbum.setName("Test Album");
+
+        Music mockSong = new Music();
+        mockSong.setId(songId);
+        mockSong.setTitle("Test Song");
+
+        when(albumRepository.findById(albumId)).thenReturn(Optional.of(mockAlbum));
+        when(musicRepository.findById(songId)).thenReturn(Optional.of(mockSong));
+
+        AlbumSongResponseDTO result = albumService.addSongToAlbum(albumId, songId, position);
+
+        assertEquals(songId, result.getSongId());
+    }
+
+    @Test
+    void testAddSongToAlbum_ReturnsSongTitle() {
+        Long albumId = 1L;
+        Long songId = 100L;
+        Integer position = 1;
+
+        Album mockAlbum = new Album();
+        mockAlbum.setId(albumId);
+        mockAlbum.setName("Test Album");
+
+        Music mockSong = new Music();
+        mockSong.setId(songId);
+        mockSong.setTitle("Test Song");
+
+        when(albumRepository.findById(albumId)).thenReturn(Optional.of(mockAlbum));
+        when(musicRepository.findById(songId)).thenReturn(Optional.of(mockSong));
+
+        AlbumSongResponseDTO result = albumService.addSongToAlbum(albumId, songId, position);
+
+        assertEquals("Test Song", result.getSongTitle());
+    }
+
+    @Test
+    void testAddSongToAlbum_ReturnsPosition() {
+        Long albumId = 1L;
+        Long songId = 100L;
+        Integer position = 1;
+
+        Album mockAlbum = new Album();
+        mockAlbum.setId(albumId);
+        mockAlbum.setName("Test Album");
+
+        Music mockSong = new Music();
+        mockSong.setId(songId);
+        mockSong.setTitle("Test Song");
+
+        when(albumRepository.findById(albumId)).thenReturn(Optional.of(mockAlbum));
+        when(musicRepository.findById(songId)).thenReturn(Optional.of(mockSong));
+
+        AlbumSongResponseDTO result = albumService.addSongToAlbum(albumId, songId, position);
+
+        assertEquals(position, result.getPosition());
+    }
 }

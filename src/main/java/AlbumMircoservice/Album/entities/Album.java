@@ -2,6 +2,8 @@ package AlbumMircoservice.Album.entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "album")
 public class Album {
@@ -10,14 +12,16 @@ public class Album {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "album_name")
+    @Column(name = "album_name", nullable = false)
     private String name;
 
-    @Column(name = "release_date")
+    @Column(name = "release_date", nullable = false)
     private String releaseDate;
 
-    public Album() {
-    }
+    @OneToMany(mappedBy = "album", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AlbumMusic> albumMusicList;
+
+    public Album() {}
 
     public Album(String name, String releaseDate) {
         this.name = name;
@@ -48,5 +52,12 @@ public class Album {
         this.releaseDate = releaseDate;
     }
 
+    public List<AlbumMusic> getAlbumMusicList() {
+        return albumMusicList;
+    }
+
+    public void setAlbumMusicList(List<AlbumMusic> albumMusicList) {
+        this.albumMusicList = albumMusicList;
+    }
 }
 

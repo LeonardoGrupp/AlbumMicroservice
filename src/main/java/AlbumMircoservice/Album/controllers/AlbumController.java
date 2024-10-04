@@ -1,6 +1,7 @@
 package AlbumMircoservice.Album.controllers;
 
 import AlbumMircoservice.Album.entities.Album;
+import AlbumMircoservice.Album.entities.AlbumSongResponseDTO;
 import AlbumMircoservice.Album.services.AlbumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/album")
@@ -19,6 +21,16 @@ public class AlbumController {
     @GetMapping("/GetAlbum/{albumId}")
     public ResponseEntity<Album> getAlbumById(@PathVariable Long albumId) {
         return new ResponseEntity<>(albumService.getAlbumById(albumId), HttpStatus.OK);
+    }
+
+    @PostMapping("/{albumId}/{songId}")
+    public ResponseEntity<AlbumSongResponseDTO> addSongToAlbum(
+            @PathVariable Long albumId,
+            @PathVariable Long songId,
+            @RequestBody Map<String, Integer> requestBody) {
+        Integer position = requestBody.get("position");
+        AlbumSongResponseDTO response = albumService.addSongToAlbum(albumId, songId, position);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/createAlbum")
